@@ -5,8 +5,8 @@ import busio
 import adafruit_character_lcd.character_lcd_rgb_i2c as character_lcd
 
 # Constants
-SERIAL_PORT0 = "/dev/ttyUSB0"
-SERIAL_PORT1 = "/dev/ttyUSB1"
+SERIAL_PORT0 = "/dev/ttyUSB_TX"
+SERIAL_PORT1 = "/dev/ttyUSB_RX"
 SAMPLES_PER_SEC = 5
 
 # Modify this if you have a different sized Character LCD
@@ -43,7 +43,8 @@ if __name__ == '__main__':
             down_int = int(down)
             up_int = down_int - 28950000
             print ("INT: " + str(up_int))
-            up = str(ft817_0)[0:8]
+            up = str(up_int)
+            ft817_0.set_tx(up)
             lcd.message = (down + "\n" +  up)
             time.sleep(delay)
     except KeyboardInterrupt:

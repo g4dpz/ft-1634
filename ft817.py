@@ -13,6 +13,8 @@ Updated on 31 Dec 2016
 '''
 
 import serial
+import struct
+import time
 
 class FT817(object):
     
@@ -43,6 +45,11 @@ class FT817(object):
         resp = self._serial.read(5)
         resp_bytes = (resp[0], resp[1], resp[2], resp[3])
         self._frequency = "%02x%02x%02x%02x" % resp_bytes
+        print (resp[0])
+        print (resp[1])
+        print (resp[2])
+        print (resp[3])
+        print (resp[4])
         self._mode = FT817.MODES[resp[4]]
         
     def read_rx_status(self):
@@ -88,6 +95,20 @@ class FT817(object):
         sql_str = 'SQL: ON' if self._squelch else 'SQL: OFF'
         res = "%sHz %s %s\r\n%s" % (self._frequency, self._mode, sql_str, s_meter_str)
         return res
+
+    def set_tx(self, freq):
+        cmd = [0,0,0,0,1]
+        cmd0 = int(freq[0:2])
+        cmd[0] = (int(cmd0 / 10) * 16) + (cmd0 % 10)
+        cmd1 = int(freq[2:4])
+        cmd[1] = (int(cmd1 / 10) * 16) + (cmd1 % 10)
+        cmd2 = int(freq[4:6])
+        cmd[2] = (int(cmd2 / 10) * 16) + (cmd2 % 10)
+        cmd3 = int(freq[6:8])
+        cmd[3] = (int(cmd3 / 10) * 16) + (cmd3 % 10)
+        self._serial.write((cmd))
+        time.sleep(1)
+        self._serial.read(1)
     
     def __str__(self):
         '''Overrides __str__() method for using FT817 class with print command.
