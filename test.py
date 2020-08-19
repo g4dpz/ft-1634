@@ -42,7 +42,10 @@ if __name__ == '__main__':
             down = str(ft817_1)[0:8]
             down_int = int(down)
             up_int = down_int - 28950000
-            print ("INT: " + str(up_int))
+            up_float = up_int / 100.0
+            down_10g = (down_int + 1005580000) / 100.0
+            print ("Up INT: " + str(up_float))
+            print ("Down INT: " + str(down_10g))
             up = str(up_int)
             ft817_0.set_tx(up)
             lcd.message = (down + "\n" +  up)
