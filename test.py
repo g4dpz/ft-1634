@@ -48,8 +48,7 @@ if __name__ == '__main__':
             print ("Down INT: " + str(down_10g))
             up = str(up_int)
             ft817_0.set_tx(up)
-            lcd.message = (down + "\n" +  up)
-            time.sleep(delay)
+            lcd.message = (str(down_10g) +"\n" + down[3:8] + "/" +  up[3:8])
     except KeyboardInterrupt:
         # KeyboardInterrupt exception is thrown when CTRL-C or CTRL-Break is pressed. 
         pass
